@@ -1,0 +1,67 @@
+﻿@model CRUD.Application.ViewModels.ContatoViewModel
+
+<h2>Cadastro de Contato</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="con_nome" class="control-label">Nome</label>
+                <input asp-for="con_nome" class="form-control" required />
+                <span asp-validation-for="con_nome" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="con_telefone" class="control-label">Telefone</label>
+                <input asp-for="con_telefone" type="tel" class="form-control" required />
+                <span asp-validation-for="con_telefone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="con_sexo" class="control-label">Sexo</label>
+                <select  asp-items="@ViewBag.Sexo"  name="Sexo"></select>
+                <span asp-validation-for="con_sexo" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                @Html.CheckBoxFor(x => x.con_ativo)
+                <label asp-for="con_ativo">Ativo</label>
+            </div>
+            <div class="form-group">
+                <label asp-for="con_dtNasc" class="control-label">Data de Nascimento</label>
+                <input asp-for="con_dtNasc" id="con_dtNasc" type="date" class="form-control" />
+                <span asp-validation-for="con_dtNasc" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Idade</label>
+                <input id="Idade" type="number" class="form-control " disabled/>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-dark">Cancelar </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+  
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        debugger;
+        function calculaIdade(nascimento) {
+            hoje = new Date();
+            return Math.floor(Math.ceil(Math.abs(nascimento.getTime() - hoje.getTime()) / (1000 * 3600 * 24)) / 365.25);
+        }
+        $(document).ready(function () {
+            var data = document.getElementById('con_dtNasc');
+            $("#con_dtNasc").focusout(function () {
+                document.getElementById('Idade').value = calculaIdade(data.valueAsDate);
+            });
+        });
+    </script>
+
+
+}

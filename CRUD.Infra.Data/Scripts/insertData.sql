@@ -1,0 +1,1 @@
+INSERT INTO CAD_cargo values('Analista de sistemas'),('Suporte tecnico'),('Marketing'),('Gerente de projetos'),('RH')

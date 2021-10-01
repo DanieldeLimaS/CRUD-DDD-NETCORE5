@@ -1,0 +1,47 @@
+﻿@model IEnumerable<CRUD.Application.ViewModels.ContatoViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Cadastrar</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.con_nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.con_dtNasc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.con_ativo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.con_nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.con_dtNasc)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.con_ativo)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.con_id" class="btn btn-primary">Editar</a> 
+                    <a asp-action="Delete" asp-route-id="@item.con_id" class="btn btn-danger">Excluir</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,60 @@
+﻿@model IEnumerable<CRUD.Application.ViewModels.ContatoViewModel>
+
+@{
+	ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+	<a asp-action="Cadastrar" class="btn btn-success">Cadastrar</a>
+</p>
+<div class="container col-md-10">
+	<table class="table">
+		<thead class="table-bordered table-striped table-dark thead-dark">
+			<tr>
+				<th>
+					@Html.DisplayName("Nome")
+				</th>
+				<th>
+					@Html.DisplayName("Data de Nascimento")
+				</th>
+				<th>
+					@Html.DisplayName("Status")
+				</th>
+				<th></th>
+			</tr>
+		</thead>asdf
+		<tbody>
+			@foreach (var item in Model)
+			{
+				<tr>
+					<td>
+						@Html.DisplayFor(modelItem => item.con_nome)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.con_dtNasc)
+					</td>
+					<td>
+						@if (item.con_ativo == true)
+						{
+							<input type="checkbox" class="badge badge-success" value="Ativo" />
+						}
+						else
+						{
+							<input type="checkbox" class="badge badge-danger" value="Inativo" />
+						}
+
+
+					</td>
+
+					<td>
+
+						<a asp-action="Editar" asp-route-id="@item.con_id" class="btn btn-dark">Editar</a>
+						<a asp-action="Excluir" asp-route-id="@item.con_id" class="btn btn-danger">Excluir</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
