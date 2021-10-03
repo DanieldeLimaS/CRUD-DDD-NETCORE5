@@ -12,7 +12,6 @@
     <ProjectReference Include="..\CRUD.Application\CRUD.Application.csproj" />
     <ProjectReference Include="..\CRUD.Domain\CRUD.Domain.csproj" />
     <ProjectReference Include="..\CRUD.Infra.Data\CRUD.Infra.Data.csproj" />
-    <ProjectReference Include="..\CRUD.Service\CRUD.Service.csproj" />
   </ItemGroup>
 
 </Project>

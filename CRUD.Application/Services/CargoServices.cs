@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CRUD.Service.Services
+namespace CRUD.Application.Services
 {
     public class CargoServices : ICargoService
     {

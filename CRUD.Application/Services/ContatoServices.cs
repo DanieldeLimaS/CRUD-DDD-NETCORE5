@@ -4,9 +4,11 @@ using CRUD.Application.ViewModels;
 using CRUD.Domain.Entities;
 using CRUD.Domain.Interfaces;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using ValidationContext = System.ComponentModel.DataAnnotations.ValidationContext;
 
-namespace CRUD.Service.Services
+namespace CRUD.Application.Services
 {
     public class ContatoService : IContatoService
     {
@@ -17,20 +19,22 @@ namespace CRUD.Service.Services
             contatoRepository = _contatoRepository;
             mapper = _mapper;
         }
-        public async Task<List<ContatoViewModel>> ColecaoAsyncEFCore()
+        public async Task<List<ContatoViewModel>> ColecaoAsyncEFCore(string pesquisa = "")
         {
-            List<ContatoViewModel> Contato = mapper.Map<List<ContatoViewModel>>(await contatoRepository.ColecaoEFCore());
+            List<ContatoViewModel> Contato = mapper.Map<List<ContatoViewModel>>(await contatoRepository.ColecaoEFCore(pesquisa));
             return Contato;
         }
 
         public async Task<(bool, string)> InserirAsyncEFCore(ContatoViewModel contatoViewModel)
         {
+            Validator.ValidateObject(contatoViewModel, new ValidationContext(contatoViewModel), true);
             CAD_contato cAD_contato = mapper.Map<CAD_contato>(contatoViewModel);
             return await contatoRepository.InserirEFCore(cAD_contato);
         }
 
         public async Task<(bool, string)> AtualizarAsyncEFCore(ContatoViewModel contatoViewModel)
         {
+           
             CAD_contato cAD_contato = mapper.Map<CAD_contato>(contatoViewModel);
             return await contatoRepository.AtualizarObjetoEFCore(cAD_contato);
         }

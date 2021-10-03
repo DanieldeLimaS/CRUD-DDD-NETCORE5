@@ -32,22 +32,31 @@ namespace CRUD.Infra.Data.Repositories
             }
         }
 
-        public async Task<List<ContatoDTO>> ColecaoEFCore()
+        public async Task<List<ContatoDTO>> ColecaoEFCore(string pesquisa = "")
         {
-            List<ContatoDTO> colecao = await context.CAD_contato
-                .Select(x => new ContatoDTO
-                {
-                    con_id = x.con_id,
-                    con_ativo = x.con_ativo,
-                    car_nome = x.cAD_cargo.car_nome,
-                    car_id = x.car_id,
-                    con_dtNasc = x.con_dtNasc,
-                    con_nome = x.con_nome,
-                    con_sexo = x.con_sexo,
-                    con_telefone = x.con_telefone
-                })
-                .ToListAsync();
-            return colecao;
+            try
+            {
+                List<ContatoDTO> colecao = await context.CAD_contato
+                    .AsNoTracking()
+                     .Where(x => x.con_nome.Contains(pesquisa))
+                    .Select(x => new ContatoDTO
+                    {
+                        con_id = x.con_id,
+                        con_ativo = x.con_ativo,
+                        car_nome = x.cAD_cargo.car_nome,
+                        car_id = x.car_id,
+                        con_dtNasc = x.con_dtNasc,
+                        con_nome = x.con_nome,
+                        con_sexo = x.con_sexo,
+                        con_telefone = x.con_telefone
+                    })
+                    .ToListAsync();
+                return colecao;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         public async Task<(bool, string)> ExcluirObjetoEFCore(int id)

@@ -9,9 +9,19 @@
 
 
 <div class="container col-md-10">
+    <div class="form-group">
+        <div class="row">
+            <div >
+                <a asp-action="Cadastrar" class="btn btn-success">Cadastrar</a>
+            </div>
+            
+            <div class=" col-md-auto">
+                <input type="text" name="pesquisa" id="pesquisa" placeholder="Pesquisar..." class="form-control"/>
+            </div>
 
-    <a asp-action="Cadastrar" class="btn btn-success">Cadastrar</a>
-    <table class="table">
+        </div>
+    </div>
+    <table class="table" id="tabelaPesquisa">
         <thead class="table-bordered table-striped table-dark thead-dark">
             <tr>
                 <th>
@@ -30,9 +40,9 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @*@foreach (var item in Model)
             {
-            <tr>
+            <tr data-id="@item.con_id">
                 <td>
                     @Html.DisplayFor(modelItem => item.con_nome)
                 </td>
@@ -58,10 +68,18 @@
                 <td>
 
                     <a asp-action="Editar" asp-route-id="@item.con_id" class="btn btn-dark">Editar</a>
-                    <a asp-action="Excluir" asp-route-id="@item.con_id" class="btn btn-danger">Excluir</a>
+                    <input type="button" data-value="@item.con_id" id="btn_excluir"  class="btn btn-danger" value="Excluír"/>
                 </td>
             </tr>
-            }
+            }*@
         </tbody>
     </table>
 </div>
+
+@section Scripts{ 
+
+    <script src="~/js/Contato.js"></script>
+
+
+}
+             

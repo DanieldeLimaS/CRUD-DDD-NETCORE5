@@ -1,7 +1,7 @@
 ﻿using CRUD.Application.Interfaces;
 using CRUD.Domain.Interfaces;
 using CRUD.Infra.Data.Repositories;
-using CRUD.Service.Services;
+using CRUD.Application.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CRUD.Infra.CrossCutting.IoC

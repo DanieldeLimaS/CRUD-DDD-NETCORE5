@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using CRUD.Application.Interfaces;
 using CRUD.Application.ViewModels;
+using CRUD.Infra.Data.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Text.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace CRUD.Site.Controllers
@@ -27,7 +28,7 @@ namespace CRUD.Site.Controllers
             cargoService = _cargoService;
             sexoService = _sexoService;
             mapper = _mapper;
-           
+
         }
         private void CarregaDropDownList()
         {
@@ -38,8 +39,18 @@ namespace CRUD.Site.Controllers
         // GET: ContatoController
         public async Task<IActionResult> Index()
         {
-
             return View(await contatoService.ColecaoAsyncEFCore());
+        }
+        [HttpGet]
+        public async Task<IActionResult> Pesquisar(string pesquisa)
+        {
+            if (string.IsNullOrEmpty(pesquisa))
+                pesquisa = string.Empty;
+            var Colecao = await contatoService.ColecaoAsyncEFCore(pesquisa);
+            if (Colecao is null)
+                return Ok(Json(new { erro = "Dados não encontrados" }));
+            return Ok(Json(new { dados = Colecao }));
+
         }
 
         // GET: ContatoController/Create
@@ -49,30 +60,19 @@ namespace CRUD.Site.Controllers
             CarregaDropDownList();
             return View();
         }
-
+        private void ValidaContato(ContatoViewModel contato)
+        {
+            if (contato.con_dtNasc.Date >= DateTime.Now.Date)
+                ModelState.AddModelError("", "Data de Nascimento não pode ser superior ou igual a data atual.");
+        }
         // POST: ContatoController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Cadastrar(ContatoViewModel contato)
         {
-            if (contato.con_dtNasc.Date >= DateTime.Now.Date)
-            {
-
-                ModelState.AddModelError("", "Data de Nascimento não pode ser superior ou igual a data atual.");
-            }
-
-            if (ModelState.IsValid)
-            {
-                (bool isValid, string mensagem) = await contatoService.InserirAsyncEFCore(contato);
-                if (!isValid)
-                {
-                    ModelState.AddModelError("", mensagem);
-                    return View();
-                }
+            if (await Salvar(EInserirAtualizar.INSERIR, contato))
                 return RedirectToAction(nameof(Index));
-            }
             return View();
-
         }
 
         // GET: ContatoController/Edit/5
@@ -90,20 +90,33 @@ namespace CRUD.Site.Controllers
             }
             return View(objeto);
         }
+        private async Task<bool> Salvar(EInserirAtualizar operacao, ContatoViewModel contato)
+        {
+            ValidaContato(contato);
+            if (!ModelState.IsValid)
+                return false;
 
+            (bool isValid, string mensagem) = operacao == EInserirAtualizar.ATUALIZAR ?
+                                                        await contatoService.AtualizarAsyncEFCore(contato) :
+                                                         await contatoService.InserirAsyncEFCore(contato);
+            if (!isValid)
+            {
+                ModelState.AddModelError("", mensagem);
+                return false;
+            }
+
+            return true;
+        }
         // POST: ContatoController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Editar(int id, [Bind("con_id,con_nome,con_telefone,con_sexo,con_ativo,car_id")] ContatoViewModel contato)
+        public async Task<IActionResult> Editar(int? id, ContatoViewModel contato)
         {
-            try
-            {
+            contato.con_id = (int)id;
+            if (await Salvar(EInserirAtualizar.ATUALIZAR, contato))
                 return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return Ok(Json("dados atualizados"));
+
         }
 
         // GET: ContatoController/Delete/5
@@ -115,12 +128,13 @@ namespace CRUD.Site.Controllers
         // POST: ContatoController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Delete(int id, [Bind("con_id,con_nome,con_telefone,con_sexo,con_ativo,car_id")] ContatoViewModel contato)
+        public async Task<ActionResult> Delete(int? id)
         {
-            var objeto = await contatoService.ObjetoPorIdAsyncEFCore(id);
-            await contatoService.ExcluirAsyncEFCore(objeto);
+            var objeto = await contatoService.ObjetoPorIdAsyncEFCore((int)id);
 
-            return RedirectToAction(nameof(Index));
+            (bool isValid, string mensagem) = await contatoService.ExcluirAsyncEFCore(objeto);
+
+            return Ok(Json(new { op = isValid, msg = mensagem }));
         }
     }
 }
