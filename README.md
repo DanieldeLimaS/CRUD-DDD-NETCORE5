@@ -1,1 +1,3 @@
-### <div align="center" >CRUD com DDD usando NetCore 5 </div>
+### <div align="center" >CRUD com DDD usando NetCore 5 ⭐</div>
+
+
