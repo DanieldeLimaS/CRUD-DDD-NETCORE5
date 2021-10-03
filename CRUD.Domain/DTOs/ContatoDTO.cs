@@ -4,20 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CRUD.Domain.Entities
+namespace CRUD.Domain.DTOs
 {
-    public class CAD_contato
+    public class ContatoDTO
     {
-        
         public int con_id { get; set; }
         public string con_nome { get; set; }
         public string con_telefone { get; set; }
         public DateTime con_dtNasc { get; set; }
         public string con_sexo { get; set; }
-        public bool con_ativo { get; set; }
-        public  int car_id { get; set; }
-        public virtual CAD_cargo cAD_cargo { get; set; }
-
-        
+        public bool con_ativo { get; set; } = true;
+        public int car_id { get; set; }
+        public string car_nome { get; set; }
     }
 }

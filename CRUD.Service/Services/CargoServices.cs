@@ -21,9 +21,9 @@ namespace CRUD.Service.Services
             cargoRepository = _cargoRepository;
             mapper = _mapper;
         }
-        public async Task<List<CargoViewModel>> ColecaoAsyncEFCore()
+        public List<CargoViewModel> ColecaoEFCore()
         {
-            return mapper.Map<List<CargoViewModel>>(await cargoRepository.ColecaoEFCore());
+            return mapper.Map<List<CargoViewModel>>( cargoRepository.ColecaoEFCore());
         }
     }
 }

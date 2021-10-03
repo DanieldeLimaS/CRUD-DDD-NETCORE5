@@ -1,10 +1,10 @@
 ﻿@model CRUD.Application.ViewModels.ContatoViewModel
-
 <h2>Cadastro de Contato</h2>
 <hr />
+
 <div class="ibox-container container col-md-8">
     <div class="col-md-12 ">
-        <form asp-action="Cadastrar" >
+        <form asp-action="Editar">
             <div asp-validation-summary="All" class="text-danger alert-danger text-center "></div>
             <div class="col-md-12 row">
                 <div class="col-md-8">
@@ -14,27 +14,26 @@
                 </div>
                 <div class="col-md-4">
                     <label asp-for="con_telefone" class="control-label">Telefone</label>
-                    <input asp-for="con_telefone" type="tel" class="form-control" required />
+                    <input asp-for="con_telefone" type="text" class=" form-control" placeholder="(00) 0 0000-0000" onkeyup="mascara('(##) # ####-####',this,event,true)" maxlength="16" required />
                     <span asp-validation-for="con_telefone" class="text-danger"></span>
                 </div>
             </div>
             <div class="col-md-12 row">
                 <div class="col-md-4">
                     <label asp-for="con_sexo" class="control-label">Sexo</label>
-                    <select asp-for="con_sexo" asp-items="@ViewBag.SexoDropDown" class="form-control"></select>
+                    <select asp-for="con_sexo" asp-items="(SelectList)@ViewData["SexoDropDown"]" class="form-control"></select>
                     <span asp-validation-for="con_sexo" class="text-danger"></span>
                 </div>
                 <div class="col-md-2">
                     <label asp-for="con_ativo" class="control-label">Status</label>
                     <div class="form-group form-check">
-
-                        @Html.CheckBoxFor(x => x.con_ativo)
+                        <input type="checkbox" asp-for="con_ativo" checked />
                         <label asp-for="con_ativo">Ativo</label>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <label asp-for="con_dtNasc" class="control-label">Data de Nascimento</label>
-                    <input asp-for="con_dtNasc" id="con_dtNasc" type="date" class="form-control" />
+                    <input asp-for="con_dtNasc" id="con_dtNasc" type="date" class="form-control" required />
                     <span asp-validation-for="con_dtNasc" class="text-danger"></span>
                 </div>
                 <div class="col-md-2">
@@ -45,7 +44,7 @@
             <div class="col-md-12 row">
                 <div class="col-md-12">
                     <label asp-for="car_id" class="control-label">Cargo</label>
-                    <select asp-for="car_id" asp-items="@ViewBag.CargosDropDown" class="form-control"></select>
+                    <select asp-for="car_id" asp-items="(SelectList)@ViewData["CargosDropDown"]" class="form-control"></select>
                     <span asp-validation-for="car_id" class="text-danger"></span>
                 </div>
             </div>
@@ -64,6 +63,7 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="~/js/Mascara.js"></script>
     <script>
         debugger;
         function calculaIdade(nascimento) {
@@ -75,8 +75,10 @@
             $("#con_dtNasc").focusout(function () {
                 document.getElementById('Idade').value = calculaIdade(data.valueAsDate);
             });
-          
+
+
         });
+
     </script>
 
 

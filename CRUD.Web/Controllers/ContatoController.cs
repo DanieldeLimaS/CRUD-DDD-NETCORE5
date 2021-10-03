@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Threading.Tasks;
 
 namespace CRUD.Web.Controllers
@@ -15,24 +16,22 @@ namespace CRUD.Web.Controllers
     {
         private IContatoService contatoService;
         private ICargoService cargoService;
+        private ISexoService sexoService;
         private readonly IMapper mapper;
 
         public ContatoController(IContatoService _contatoService,
-                                 ICargoService _cargoService, IMapper _mapper)
+                                 ICargoService _cargoService,
+                                 ISexoService _sexoService, IMapper _mapper)
         {
             contatoService = _contatoService;
             cargoService = _cargoService;
+            sexoService = _sexoService;
             mapper = _mapper;
         }
-        private async void CarregaDropDownList()
+        private  void CarregaDropDownList()
         {
-            ViewBag.SexoDropDown = new[]
-        {
-                    new SelectListItem(){ Value = "1", Text = "Masculino"},
-                    new SelectListItem(){ Value = "2", Text = "Feminino"},
-                    new SelectListItem(){ Value = "3", Text = "Prefiro não informar"}
-                };
-            ViewBag.CargosDropDown = new SelectList(await cargoService.ColecaoAsyncEFCore(), "car_id", "car_nome");//Preenche DROPDOWNLIST
+            ViewBag.SexoDropDown = new SelectList(sexoService.ColecaoSexo(), "sex_sigla", "sex_nome");
+            ViewBag.CargosDropDown = new SelectList( cargoService.ColecaoEFCore(), "car_id", "car_nome");//Preenche DROPDOWNLIST
 
         }
         // GET: ContatoController
@@ -43,6 +42,7 @@ namespace CRUD.Web.Controllers
         }
 
         // GET: ContatoController/Create
+
         public ActionResult Cadastrar()
         {
             CarregaDropDownList();
@@ -52,14 +52,25 @@ namespace CRUD.Web.Controllers
         // POST: ContatoController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Cadastrar([Bind("con_id,con_nome,con_telefone,con_sexo,con_ativo,car_id")] ContatoViewModel contato)
+        public async Task<IActionResult> Cadastrar(ContatoViewModel contato)
         {
+            if (contato.con_dtNasc.Date >= DateTime.Now.Date)
+            {
+
+                ModelState.AddModelError("", "Data de Nascimento não pode ser superior que a data atual.");
+            }
+                
             if (ModelState.IsValid)
             {
-                await contatoService.InserirAsyncEFCore(contato);
+                (bool isValid, string mensagem) = await contatoService.InserirAsyncEFCore(contato);
+                if (!isValid)
+                {
+                    ModelState.AddModelError("", mensagem);
+                    return View();
+                }
                 return RedirectToAction(nameof(Index));
             }
-            return View(contato);
+            return View();
 
         }
 

@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using CRUD.Application.Interfaces;
+using CRUD.Application.ViewModels;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,57 +15,86 @@ namespace CRUD.Site.Controllers
     public class ContatoController : Controller
     {
         private IContatoService contatoService;
+        private ICargoService cargoService;
+        private ISexoService sexoService;
         private readonly IMapper mapper;
 
-        public ContatoController(IContatoService _contatoService, IMapper _mapper)
+        public ContatoController(IContatoService _contatoService,
+                                 ICargoService _cargoService,
+                                 ISexoService _sexoService, IMapper _mapper)
         {
             contatoService = _contatoService;
+            cargoService = _cargoService;
+            sexoService = _sexoService;
             mapper = _mapper;
+           
         }
+        private void CarregaDropDownList()
+        {
+            ViewData["SexoDropDown"] = new SelectList(sexoService.ColecaoSexo(), "sex_sigla", "sex_nome");
+            ViewData["CargosDropDown"] = new SelectList(cargoService.ColecaoEFCore(), "car_id", "car_nome");//Preenche DROPDOWNLIST
 
+        }
         // GET: ContatoController
         public async Task<IActionResult> Index()
         {
+
             return View(await contatoService.ColecaoAsyncEFCore());
         }
 
-        // GET: ContatoController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
         // GET: ContatoController/Create
-        public ActionResult Create()
+
+        public ActionResult Cadastrar()
         {
+            CarregaDropDownList();
             return View();
         }
 
         // POST: ContatoController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Cadastrar(ContatoViewModel contato)
         {
-            try
+            if (contato.con_dtNasc.Date >= DateTime.Now.Date)
             {
+
+                ModelState.AddModelError("", "Data de Nascimento não pode ser superior ou igual a data atual.");
+            }
+
+            if (ModelState.IsValid)
+            {
+                (bool isValid, string mensagem) = await contatoService.InserirAsyncEFCore(contato);
+                if (!isValid)
+                {
+                    ModelState.AddModelError("", mensagem);
+                    return View();
+                }
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            return View();
+
         }
 
         // GET: ContatoController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Editar(int? id)
         {
-            return View();
+            if (id is null)
+            {
+                return NotFound();
+            }
+            CarregaDropDownList();
+            var objeto = await contatoService.ObjetoPorIdAsyncEFCore((int)id);
+            if (objeto == null)
+            {
+                return NotFound();
+            }
+            return View(objeto);
         }
 
         // POST: ContatoController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Editar(int id, [Bind("con_id,con_nome,con_telefone,con_sexo,con_ativo,car_id")] ContatoViewModel contato)
         {
             try
             {
@@ -85,16 +115,12 @@ namespace CRUD.Site.Controllers
         // POST: ContatoController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(int id, [Bind("con_id,con_nome,con_telefone,con_sexo,con_ativo,car_id")] ContatoViewModel contato)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var objeto = await contatoService.ObjetoPorIdAsyncEFCore(id);
+            await contatoService.ExcluirAsyncEFCore(objeto);
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

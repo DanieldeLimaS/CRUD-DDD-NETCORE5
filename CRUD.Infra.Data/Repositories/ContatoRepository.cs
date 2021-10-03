@@ -1,9 +1,11 @@
-﻿using CRUD.Domain.Entities;
+﻿using CRUD.Domain.DTOs;
+using CRUD.Domain.Entities;
 using CRUD.Domain.Interfaces;
 using CRUD.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CRUD.Infra.Data.Repositories
@@ -30,9 +32,22 @@ namespace CRUD.Infra.Data.Repositories
             }
         }
 
-        public async Task<List<CAD_contato>> ColecaoEFCore()
+        public async Task<List<ContatoDTO>> ColecaoEFCore()
         {
-            return await context.CAD_contato.ToListAsync();
+            List<ContatoDTO> colecao = await context.CAD_contato
+                .Select(x => new ContatoDTO
+                {
+                    con_id = x.con_id,
+                    con_ativo = x.con_ativo,
+                    car_nome = x.cAD_cargo.car_nome,
+                    car_id = x.car_id,
+                    con_dtNasc = x.con_dtNasc,
+                    con_nome = x.con_nome,
+                    con_sexo = x.con_sexo,
+                    con_telefone = x.con_telefone
+                })
+                .ToListAsync();
+            return colecao;
         }
 
         public async Task<(bool, string)> ExcluirObjetoEFCore(int id)
@@ -44,7 +59,7 @@ namespace CRUD.Infra.Data.Repositories
                 await context.SaveChangesAsync();
                 return (true, "Contato Excluido com sucesso");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return (false, $"Ocorreu um erro interno\n{ex.Message}");
             }
@@ -55,15 +70,15 @@ namespace CRUD.Infra.Data.Repositories
             return await context.CAD_contato.FindAsync(id);
         }
 
-       public async Task<(bool, string)> InserirEFCore(CAD_contato cAD_contato)
+        public async Task<(bool, string)> InserirEFCore(CAD_contato cAD_contato)
         {
             try
             {
-                await context.Set<CAD_contato>().AddAsync(cAD_contato);
+                context.CAD_contato.Add(cAD_contato);
                 await context.SaveChangesAsync();
                 return (true, "Contato cadastrado com sucesso");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return (false, $"Ocorreu um erro interno\n{ex.Message}");
             }

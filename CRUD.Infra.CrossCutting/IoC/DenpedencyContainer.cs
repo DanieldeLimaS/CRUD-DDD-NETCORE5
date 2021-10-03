@@ -15,6 +15,8 @@ namespace CRUD.Infra.CrossCutting.IoC
 
             services.AddScoped<ICargoService, CargoServices>();
             services.AddScoped<ICargoRepository, CargoRepository>();
+
+            services.AddScoped<ISexoService, SexoServices>();
         }
     }
 

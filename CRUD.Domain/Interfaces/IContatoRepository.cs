@@ -1,4 +1,5 @@
-﻿using CRUD.Domain.Entities;
+﻿using CRUD.Domain.DTOs;
+using CRUD.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace CRUD.Domain.Interfaces
 {
     public interface IContatoRepository
     {
-        Task<List<CAD_contato>> ColecaoEFCore();
+        Task<List<ContatoDTO>> ColecaoEFCore();
         Task<CAD_contato> ObjetoPorIdEFCore(int id);
         Task<(bool, string)> ExcluirObjetoEFCore(int id);
         Task<(bool, string)> AtualizarObjetoEFCore(CAD_contato cAD_contato);

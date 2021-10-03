@@ -3,45 +3,65 @@
 @{
     ViewData["Title"] = "Index";
 }
+<div class="text-center container">
+    <h1>Consulta de Contatos</h1>
+</div>
 
-<h1>Index</h1>
 
-<p>
-    <a asp-action="Create" class="btn btn-success">Cadastrar</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.con_nome)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.con_dtNasc)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.con_ativo)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+<div class="container col-md-10">
+
+    <a asp-action="Cadastrar" class="btn btn-success">Cadastrar</a>
+    <table class="table">
+        <thead class="table-bordered table-striped table-dark thead-dark">
+            <tr>
+                <th>
+                    @Html.DisplayName("Nome")
+                </th>
+                <th>
+                    @Html.DisplayName("Data de Nascimento")
+                </th>
+                <th>
+                    @Html.DisplayName("Status")
+                </th>
+                <th>
+                    @Html.DisplayName("Cargo")
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.con_nome)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.con_dtNasc)
+                    @Html.DisplayFor(modelItem => item.con_dtNasc, "{0:dd/MM/yyyy}")
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.con_ativo)
+                    @if (item.con_ativo == true)
+                    {
+                        <div class="badge badge-success">Ativo</div>
+                    }
+                    else
+                    {
+                        <div class="badge badge-danger">Inativo</div>
+                    }
+
+
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.con_id" class="btn btn-primary">Editar</a> 
-                    <a asp-action="Delete" asp-route-id="@item.con_id" class="btn btn-danger">Excluir</a>
+                    @Html.DisplayFor(modelItem => item.car_nome)
+                </td>
+
+                <td>
+
+                    <a asp-action="Editar" asp-route-id="@item.con_id" class="btn btn-dark">Editar</a>
+                    <a asp-action="Excluir" asp-route-id="@item.con_id" class="btn btn-danger">Excluir</a>
                 </td>
             </tr>
-        }
-    </tbody>
-</table>
+            }
+        </tbody>
+    </table>
+</div>

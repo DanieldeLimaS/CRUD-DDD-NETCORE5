@@ -9,6 +9,6 @@ namespace CRUD.Domain.Interfaces
 {
     public interface ICargoRepository
     {
-        Task<List<CAD_cargo>> ColecaoEFCore();
+        List<CAD_cargo> ColecaoEFCore();
     }
 }

@@ -19,8 +19,7 @@ namespace CRUD.Service.Services
         }
         public async Task<List<ContatoViewModel>> ColecaoAsyncEFCore()
         {
-            List<CAD_contato> cAD_contato = await contatoRepository.ColecaoEFCore();
-            List<ContatoViewModel> Contato = mapper.Map<List<ContatoViewModel>>(cAD_contato);
+            List<ContatoViewModel> Contato = mapper.Map<List<ContatoViewModel>>(await contatoRepository.ColecaoEFCore());
             return Contato;
         }
 

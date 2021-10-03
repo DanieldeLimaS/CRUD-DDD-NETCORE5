@@ -4,11 +4,17 @@ using CRUD.Infra.Data.Context;
 using CRUD.Site.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace CRUD.Site
 {
@@ -24,9 +30,9 @@ namespace CRUD.Site
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<CRUDSiteContext>(options =>
-               options.UseSqlServer(
-                   Configuration.GetConnectionString("CRUDConnection")));
+            services.AddDbContext<ApplicationDbContext>(options =>
+          options.UseSqlServer(
+              Configuration.GetConnectionString("CRUDConnection")));
 
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(
@@ -36,24 +42,26 @@ namespace CRUD.Site
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<CRUDSiteContext>();
+                .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
 
 
             RegisterServices(services);
+            DenpedencyContainer.RegisterServices(services);
             AutoMapperConfig.Configuration(services);
         }
         public static void RegisterServices(IServiceCollection services)
         {
             DenpedencyContainer.RegisterServices(services);
         }
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseMigrationsEndPoint();
+                app.UseBrowserLink();
             }
             else
             {

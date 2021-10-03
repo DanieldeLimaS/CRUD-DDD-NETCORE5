@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
-using CRUD.Application.ViewModels;
-using CRUD.Domain.Entities;
+using CRUD.Application.Automapper.Profiles;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CRUD.Application.Automapper
@@ -11,11 +10,7 @@ namespace CRUD.Application.Automapper
         {
             var mapperconfig = new MapperConfiguration(config =>
             {
-                config.CreateMap<CAD_contato, ContatoViewModel>();
-                config.CreateMap<ContatoViewModel, CAD_contato>();
-
-                config.CreateMap<CAD_cargo, CargoViewModel>();
-                config.CreateMap<CargoViewModel, CAD_cargo>();
+                config.AddProfile<CadastroProfile>();
             });
             services.AddSingleton(mapperconfig.CreateMapper());
         }

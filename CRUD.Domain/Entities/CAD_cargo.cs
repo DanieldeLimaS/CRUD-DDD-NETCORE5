@@ -10,10 +10,10 @@ namespace CRUD.Domain.Entities
     {
         public CAD_cargo()
         {
-            cAD_contato = new List<CAD_contato>();
+            cAD_contato = new HashSet<CAD_contato>();
         }
         public int car_id { get; set; }
         public string car_nome { get; set; }
-        public virtual List<CAD_contato> cAD_contato { get; set; }
+        public virtual ICollection<CAD_contato> cAD_contato { get; set; }
     }
 }

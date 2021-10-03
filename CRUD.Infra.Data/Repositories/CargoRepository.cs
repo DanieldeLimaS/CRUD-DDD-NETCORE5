@@ -3,6 +3,7 @@ using CRUD.Domain.Interfaces;
 using CRUD.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CRUD.Infra.Data.Repositories
@@ -14,9 +15,9 @@ namespace CRUD.Infra.Data.Repositories
         {
             context = _context;
         }
-        public async Task<List<CAD_cargo>> ColecaoEFCore()
+        public  List<CAD_cargo> ColecaoEFCore()
         {
-            return await context.CAD_cargo.ToListAsync();
+            return  context.CAD_cargo.ToList();
         }
     }
 }

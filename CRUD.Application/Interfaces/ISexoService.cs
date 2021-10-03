@@ -1,12 +1,14 @@
 ﻿using CRUD.Application.ViewModels;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace CRUD.Application.Interfaces
 {
-    public interface ICargoService
+    public interface ISexoService
     {
-        List<CargoViewModel> ColecaoEFCore();
-
+        List<SexoViewModel> ColecaoSexo();
     }
 }

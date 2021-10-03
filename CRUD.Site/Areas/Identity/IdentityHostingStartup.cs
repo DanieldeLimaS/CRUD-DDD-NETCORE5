@@ -1,5 +1,4 @@
 ﻿using System;
-using CRUD.Site.Areas.Identity.Data;
 using CRUD.Site.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -16,12 +15,6 @@ namespace CRUD.Site.Areas.Identity
         public void Configure(IWebHostBuilder builder)
         {
             builder.ConfigureServices((context, services) => {
-                services.AddDbContext<CRUDSiteContext>(options =>
-                    options.UseSqlServer(
-                        context.Configuration.GetConnectionString("CRUDSiteContextConnection")));
-
-                services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                    .AddEntityFrameworkStores<CRUDSiteContext>();
             });
         }
     }
