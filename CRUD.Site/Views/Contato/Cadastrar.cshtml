@@ -65,7 +65,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="~/js/Mascara.js"></script>
     <script>
-        debugger;
         function calculaIdade(nascimento) {
             hoje = new Date();
             return Math.floor(Math.ceil(Math.abs(nascimento.getTime() - hoje.getTime()) / (1000 * 3600 * 24)) / 365.25);

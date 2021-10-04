@@ -40,38 +40,7 @@
             </tr>
         </thead>
         <tbody>
-            @*@foreach (var item in Model)
-            {
-            <tr data-id="@item.con_id">
-                <td>
-                    @Html.DisplayFor(modelItem => item.con_nome)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.con_dtNasc, "{0:dd/MM/yyyy}")
-                </td>
-                <td>
-                    @if (item.con_ativo == true)
-                    {
-                        <div class="badge badge-success">Ativo</div>
-                    }
-                    else
-                    {
-                        <div class="badge badge-danger">Inativo</div>
-                    }
-
-
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.car_nome)
-                </td>
-
-                <td>
-
-                    <a asp-action="Editar" asp-route-id="@item.con_id" class="btn btn-dark">Editar</a>
-                    <input type="button" data-value="@item.con_id" id="btn_excluir"  class="btn btn-danger" value="Excluír"/>
-                </td>
-            </tr>
-            }*@
+          
         </tbody>
     </table>
 </div>
