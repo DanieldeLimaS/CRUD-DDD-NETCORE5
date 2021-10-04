@@ -1,7 +1,7 @@
 
 <h1 align="center">
 <br>
- Projeto em .NET Core 5 com estrutura DDD ⭐</h1>
+ ⭐Projeto em .NET Core 5 com estrutura DDD ⭐</h1>
 
 ## :page_facing_up: Descrição
 
@@ -22,7 +22,7 @@ Update-database -context ApplicationDbContext
 após realizar esses dois procedimentos, o sistema já está pronto para utilizar o banco de dados.
 
 
-## Tecnologias
+## 🧪 Tecnologias 🧪
 
 Esse projeto foi desenvolvido com as seguintes tecnologias:
 
@@ -34,7 +34,9 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 - [Html]()
 - [Bootstrap](https://getbootstrap.com/docs/4.3/getting-started/introduction/)
 
+## 🧰Tempo Gasto para o Desenvolvimento do projeto🧰
 
+🕐Aproximadamente *9* Horas trabalhadas 🕐
 ---
 
 
