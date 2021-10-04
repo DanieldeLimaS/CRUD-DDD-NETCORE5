@@ -50,7 +50,7 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 ## 🧰Tempo Gasto para o Desenvolvimento do projeto🧰
 
 
-🕐Aproximadamente *9* Horas trabalhadas 🕐
+🕐Aproximadamente *10* Horas trabalhadas 🕐
 
 
 ---
