@@ -37,12 +37,11 @@ namespace CRUD.Infra.Data.Repositories
             try
             {
                 List<ContatoDTO> colecao = await context.CAD_contato
-                    .AsNoTracking()
                      .Where(x => x.con_nome.Contains(pesquisa))
                     .Select(x => new ContatoDTO
                     {
                         con_id = x.con_id,
-                        con_ativo = x.con_ativo,
+                        con_ativo = (bool)x.con_ativo,
                         car_nome = x.cAD_cargo.car_nome,
                         car_id = x.car_id,
                         con_dtNasc = x.con_dtNasc,
@@ -56,6 +55,7 @@ namespace CRUD.Infra.Data.Repositories
             catch (Exception ex)
             {
                 throw;
+                
             }
         }
 

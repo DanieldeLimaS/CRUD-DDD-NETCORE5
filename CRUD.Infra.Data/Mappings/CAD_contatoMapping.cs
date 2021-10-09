@@ -12,7 +12,9 @@ namespace CRUD.Infra.Data.Mappings
             builder.HasKey(x => x.con_id);
             builder.Property(x => x.con_nome).IsRequired();
             builder.Property(x => x.con_telefone).HasColumnType("nvarchar(20)");
-            builder.Property(x => x.con_dtNasc).IsRequired();
+            builder.Property(x => x.con_dtNasc).IsRequired().HasColumnType("date");
+            builder.Property(x => x.con_ativo).HasColumnType("bit");
+            builder.Property(x => x.con_sexo).HasColumnType("char(1)");
 
             builder.HasOne(x => x.cAD_cargo)
                 .WithMany(x => x.cAD_contato)
