@@ -1,11 +1,11 @@
 
 <h1 align="center">
 <br>
- ⭐Projeto em .NET Core 5 com estrutura DDD ⭐</h1>
+ ⭐Projeto em .NET Core 5 com alguns conceitos do DDD ⭐</h1>
 
 ## :page_facing_up: Descrição
 
-Projeto desenvolvido em .NET Core 5 implementando na estrutura DDD, foi aplicato tecnologia de ORM usando o Entity Framework e o banco de dados utilizado no projeto é o Sql Server, o projeto está um pouco avançado por se tratar de uma estrutura mais poderosa 
+Projeto desenvolvido em .NET Core 5 implementando conceitos do DDD, foi aplicado tecnologia de ORM usando o Entity Framework e o banco de dados utilizado no projeto é o Sql Server, o projeto está um pouco avançado por se tratar de uma estrutura mais poderosa 
 
 
 
