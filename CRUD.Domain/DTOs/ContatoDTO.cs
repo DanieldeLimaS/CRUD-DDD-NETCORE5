@@ -12,5 +12,6 @@ namespace CRUD.Domain.DTOs
         public bool con_ativo { get; set; } = true;
         public int car_id { get; set; }
         public string car_nome { get; set; }
+        public string con_obs { get; set; }
     }
 }

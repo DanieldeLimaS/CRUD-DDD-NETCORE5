@@ -31,5 +31,6 @@ namespace CRUD.Application.ViewModels
         [Required(ErrorMessage ="Informe o Cargo")]
         public int car_id { get; set; }
         public string car_nome { get; set; }
+        public string con_obs { get; set; }
     }
 }

@@ -15,6 +15,7 @@ namespace CRUD.Infra.Data.Mappings
             builder.Property(x => x.con_dtNasc).IsRequired().HasColumnType("date");
             builder.Property(x => x.con_ativo).HasColumnType("bit");
             builder.Property(x => x.con_sexo).HasColumnType("char(1)");
+            builder.Property(x => x.con_obs).HasColumnType("nvarchar(max)");
 
             builder.HasOne(x => x.cAD_cargo)
                 .WithMany(x => x.cAD_contato)

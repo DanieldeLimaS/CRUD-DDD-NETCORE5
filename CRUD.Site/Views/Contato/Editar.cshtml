@@ -48,6 +48,13 @@
                     <span asp-validation-for="car_id" class="text-danger"></span>
                 </div>
             </div>
+            <div class="col-md-12 row">
+                <div class="col-md-12">
+                    <label asp-for="con_obs" class="control-label">Observações</label>
+                    <textarea asp-for="con_obs" class="form-control" rows="3" maxlength="200" style="min-height: 100px; max-height: 200px;" ></textarea>
+                    <span asp-validation-for="con_obs" class="text-danger"></span>
+                </div>
+            </div>
             <hr />
             <div class="form-group">
                 <input type="submit" value="Salvar" id="Cadastrar" class="btn btn-outline-success" />
@@ -65,7 +72,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="~/js/Mascara.js"></script>
     <script>
-        debugger;
+       
         function calculaIdade(nascimento) {
             hoje = new Date();
             return Math.floor(Math.ceil(Math.abs(nascimento.getTime() - hoje.getTime()) / (1000 * 3600 * 24)) / 365.25);

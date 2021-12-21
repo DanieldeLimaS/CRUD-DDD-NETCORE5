@@ -47,7 +47,9 @@ namespace CRUD.Infra.Data.Repositories
                         con_dtNasc = x.con_dtNasc,
                         con_nome = x.con_nome,
                         con_sexo = x.con_sexo,
-                        con_telefone = x.con_telefone
+                        con_telefone = x.con_telefone,
+                        con_obs = x.con_obs
+                       
                     })
                     .ToListAsync();
                 return colecao;

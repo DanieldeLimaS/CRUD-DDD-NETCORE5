@@ -12,6 +12,7 @@ namespace CRUD.Domain.Entities
         public string con_sexo { get; set; }
         public bool con_ativo { get; set; }
         public  int car_id { get; set; }
+        public string con_obs { get; set; }
         public virtual CAD_cargo cAD_cargo { get; set; }
 
         
